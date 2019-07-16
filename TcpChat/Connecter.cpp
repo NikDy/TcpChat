@@ -14,7 +14,7 @@ void Connecter::start()
 {
 	ip::tcp::endpoint ep(ip::address::from_string(address), port);
 	auto connector_ = std::make_shared<session>(std::move(socket_));
-	connector_->start(ep);
+	connector_->start(ep, username);
 }
 
 

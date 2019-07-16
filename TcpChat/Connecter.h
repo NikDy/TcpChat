@@ -1,7 +1,7 @@
 #pragma once
 #include "NetworkEntity.h"
 class Connecter :
-	public NetworkEntity
+	protected NetworkEntity
 {
 public:
 	Connecter(io_context&, const std::string&, const std::string&);

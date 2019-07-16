@@ -12,12 +12,13 @@ Hoster::Hoster(io_context& ioc, const std::string& name) :
 
 void Hoster::start()
 {
+	std::cout << "Wait for connect" << std::endl;
 	acceptor_.async_accept(
 		[this](boost::system::error_code ec, tcp::socket socket)
 	{
 		if (!ec)
 		{
-			std::make_shared<session>(std::move(socket))->start();
+			std::make_shared<session>(std::move(socket))->start(username);
 		}
 	});
 }

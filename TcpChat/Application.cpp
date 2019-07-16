@@ -5,7 +5,6 @@
 
 int main(int argc, char* argv[])
 {
-	setlocale(LC_ALL, "Russian");
 	try
 	{
 		boost::asio::io_context io_context;

@@ -6,9 +6,10 @@ session::session(tcp::socket socket) : socket_(std::move(socket))
 }
 
 
-void session::start()
+void session::start(const std::string& name)
 {
-	std::cout << "in session" << std::endl;
+	username = name;
+	std::cout << "Connected" << std::endl;
 	std::thread reading_t(&session::do_read, this);
 	std::thread writing_t(&session::do_write, this);
 	writing_t.detach();
@@ -16,8 +17,9 @@ void session::start()
 }
 
 
-void session::start(tcp::endpoint ep)
+void session::start(tcp::endpoint ep, const std::string& name)
 {
+	username = name;
 	socket_.connect(ep);
 	std::cout << "Connected" << std::endl;
 	std::thread reading_t(&session::do_read, this);
@@ -25,6 +27,7 @@ void session::start(tcp::endpoint ep)
 	writing_t.detach();
 	reading_t.detach();
 }
+
 
 void session::do_read()
 {
@@ -35,7 +38,7 @@ void session::do_read()
 		if (!ec)
 		{
 			std::cout.write(data_, length);
-			std::cout << std::endl;
+			std::cout << " " << std::endl;
 			do_read();
 		}
 		else
@@ -46,12 +49,15 @@ void session::do_read()
 	});
 }
 
+
 void session::do_write()
 {
 	while (true)
 	{
 		std::string message;
+		std::cout << username + ": ";
 		std::cin >> message;
+		message = username + ": " + message;
 		if (message.length() > max_length)
 		{
 			std::vector<std::string> msg_vec;

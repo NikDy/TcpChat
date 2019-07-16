@@ -2,7 +2,7 @@
 #include "NetworkEntity.h"
 
 class Hoster :
-	public NetworkEntity
+	protected NetworkEntity
 {
 public:
 	Hoster(io_context&, const std::string&);
